@@ -29,7 +29,7 @@ app.get("/info", (request, response) => {
 
 app.get("/api/data/:id", (request, response) => {
   Person.findById(request.params.id).then(person =>{
-    response.json(note)
+    response.json(person)
   })
 });
 
