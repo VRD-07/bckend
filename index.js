@@ -28,14 +28,9 @@ app.get("/info", (request, response) => {
 });
 
 app.get("/api/data/:id", (request, response) => {
-  const id = request.params.id;
-  const person = data.find((person) => person.id == id);
-
-  if (person) {
-    response.json(person);
-  } else {
-    response.status(404).end();
-  }
+  Person.findById(request.params.id).then(person =>{
+    response.json(note)
+  })
 });
 
 app.delete("/api/data/:id", (request, response) => {
@@ -47,7 +42,6 @@ app.delete("/api/data/:id", (request, response) => {
 
 app.post("/api/data", (request, response) => {
   const body = request.body;
-  const id = Math.floor(Math.random() * 9999).toString();
 
   if (!body.name || !body.number) {
     return response.status(400).json({
@@ -55,21 +49,19 @@ app.post("/api/data", (request, response) => {
     });
   }
 
-  if (data.find((person) => person.name === body.name)) {
-    return response.status(400).json({
-      error: "name must be unique",
-    });
-  }
+  // if (data.find((person) => person.name === body.name)) {
+  //   return response.status(400).json({
+  //     error: "name must be unique",
+  //   });
+  // }
 
-  const person = {
+  const person = new Person({
     name: body.name,
     number: body.number,
-    id: id,
-  };
+  });
 
-  data = data.concat(person);
+  person.save().then(savedNote => response.json(savedNote))
 
-  response.json(person);
 });
 
 const PORT = process.env.PORT || 3001;
