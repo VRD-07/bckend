@@ -1,7 +1,7 @@
-POST http://localhost:3001/api/data
+PUT http://localhost:3001/api/data/68d95f3f1d45c9300910768d
 content-type: application/json
 
 {
-    "name": "sampe",
+    "name": "Rohan",
     "number": "91-6599-89741"
 }
